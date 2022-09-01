@@ -6,7 +6,7 @@ const form = document.querySelector('.feedback-form'); // form
 
 const messageText = document.querySelector('textarea[name="message"]'); //textarea
 
-const localKey = 'feedback-form-state'; // storageKey
+const LOCAL_KEY = 'feedback-form-state'; // storageKey
 
 form.addEventListener('input', throttle(formInputSave, 500));
 
@@ -16,10 +16,10 @@ function formInputSave() {
     email: inputEmail.value,
     message: messageText.value,
   };
-  localStorage.setItem(localKey, JSON.stringify(saveObject));
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(saveObject));
   
 }
-const savedValues = JSON.parse(localStorage.getItem(localKey));
+const savedValues = JSON.parse(localStorage.getItem(LOCAL_KEY));
 
 if(savedValues) {
   inputEmail.value = (savedValues).email;
@@ -31,9 +31,9 @@ form.addEventListener('submit', onSubmitForm);
 function onSubmitForm(event) {
   event.preventDefault();
      
-  if(JSON.parse(localStorage.getItem(localKey))) {
-     console.log(JSON.parse(localStorage.getItem(localKey)))
-     localStorage.removeItem(localKey);
+  if(JSON.parse(localStorage.getItem(LOCAL_KEY))) {
+     console.log(JSON.parse(localStorage.getItem(LOCAL_KEY)))
+     localStorage.removeItem(LOCAL_KEY);
      form.reset();
   }
 }
