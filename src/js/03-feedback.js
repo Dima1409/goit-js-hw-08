@@ -33,7 +33,7 @@ function onSubmitForm(event) {
      
   if(JSON.parse(localStorage.getItem(localKey))) {
      console.log(JSON.parse(localStorage.getItem(localKey)))
-     localStorage.clear();
+     localStorage.removeItem(localKey);
      form.reset();
   }
 }
