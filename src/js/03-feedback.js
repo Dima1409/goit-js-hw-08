@@ -1,3 +1,5 @@
+import { save, load, remove } from './storage';
+
 const throttle = require('lodash.throttle'); //throttle
 
 const inputEmail = document.querySelector('input[name="email"]'); // email
@@ -10,32 +12,28 @@ const LOCAL_KEY = 'feedback-form-state'; // storageKey
 
 form.addEventListener('input', throttle(formInputSave, 500));
 
-
 function formInputSave() {
   const saveObject = {
     email: inputEmail.value,
     message: messageText.value,
   };
-  localStorage.setItem(LOCAL_KEY, JSON.stringify(saveObject));
-  
+  save(LOCAL_KEY, saveObject);
 }
-const savedValues = JSON.parse(localStorage.getItem(LOCAL_KEY));
+const savedValues = load(LOCAL_KEY);
 
-if(savedValues) {
-  inputEmail.value = (savedValues).email;
-  messageText.value = (savedValues).message;
+if (savedValues) {
+  inputEmail.value = savedValues.email;
+  messageText.value = savedValues.message;
 }
 
 form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(event) {
   event.preventDefault();
-     
-  if(JSON.parse(localStorage.getItem(LOCAL_KEY))) {
-     console.log(JSON.parse(localStorage.getItem(LOCAL_KEY)))
-     localStorage.removeItem(LOCAL_KEY);
-     form.reset();
+
+  if (load(LOCAL_KEY)) {
+    console.log(load(LOCAL_KEY));
+    remove(LOCAL_KEY);
+    form.reset();
   }
 }
-
-

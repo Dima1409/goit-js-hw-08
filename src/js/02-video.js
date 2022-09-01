@@ -1,4 +1,5 @@
 import Player from '@vimeo/player';
+import { load, save, remove } from './storage';
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
@@ -14,13 +15,13 @@ player.getVideoTitle().then(function (title) {
 });
 //todo onPlay ............................................................................
 const onPlay = throttle(function (e) {
-  localStorage.setItem(LOCAL_STORAGE_KEY, e.seconds);
+  save(LOCAL_STORAGE_KEY, e.seconds);
 }, 1000);
 
 player.on('timeupdate', onPlay);
 //todo setCurrentTime ...............................................................
 player
-  .setCurrentTime(localStorage.getItem(LOCAL_STORAGE_KEY))
+  .setCurrentTime(load(LOCAL_STORAGE_KEY))
   .then(function (e) {
     console.log('start time:', e);
     // seconds = the actual time that the player seeked to
