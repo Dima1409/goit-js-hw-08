@@ -11,39 +11,42 @@ const localKey = 'feedback-form-state'; // storageKey
 form.addEventListener('input', throttle(formInputSave, 500));
 
 
-
+let savedValues = '';
 function formInputSave() {
   const saveObject = {
     email: inputEmail.value,
     message: messageText.value,
   };
   localStorage.setItem(localKey, JSON.stringify(saveObject));
+  
+  
 }
 
-let savedValues;
-reloadPage();
 
-function reloadPage() {
-  savedValues = JSON.parse(localStorage.getItem(localKey));
-  console.log(savedValues);
-  if (savedValues === null) {
-    inputEmail.value = '';
-    messageText.value = '';
-  }
-  inputEmail.value = savedValues.email;
-  messageText.value = savedValues.message;
-}
+
 // const savedValues = JSON.parse(localStorage.getItem(localKey));
 // if (savedValues) {
 //   inputEmail.value = savedValues.email;
 //   messageText.value = savedValues.message;
 // }
+
+savedValues = JSON.parse(localStorage.getItem(localKey));
+if (savedValues) {
+  inputEmail.value = savedValues.email;
+  messageText.value = savedValues.message;
+}
 // CLEAR FORM
 form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(event) {
   event.preventDefault();
-  console.log(savedValues);
-  localStorage.clear(localKey);
-  form.reset();
+     
+  if(savedValues) {
+     console.log(savedValues)
+     savedValues = null
+     localStorage.clear();
+     form.reset();
+  }
 }
+
+
